@@ -15,11 +15,11 @@ import engenhariadesoftware.clinicacovid.model.Patient;
 
 public class Main {
 
-	private static Controller controller;
+	private static DataController controller;
 	private static Scanner in;
 	
 	public static void main(String[] args) {
-		controller = new Controller();
+		controller = new DataController();
 		in = new Scanner(System.in);
 		
 		while(true) {
@@ -132,7 +132,7 @@ public class Main {
 		println("2. Ver Consultas marcadas");
 		println("3. Voltar");
 	}
-	
+		
 	private static void handleSeeScheduledAppointments(Patient patient) {
 		List<DoctorAppointment> docAps = controller.getDoctorAppointmentsFor(patient);
 		List<CovidTestAppointment> covidTestAps = controller.getCovidTestAppointmentsFor(patient);

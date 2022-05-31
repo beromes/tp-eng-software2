@@ -16,7 +16,7 @@ import engenhariadesoftware.clinicacovid.model.Patient;
 import engenhariadesoftware.clinicacovid.model.Storage;
 
 enum Mode { Doctor, Nurse, Patient }
-public class Controller {
+public class DataController {
 	Mode currentMode = null;
 	
 	private Storage storage;
@@ -24,7 +24,7 @@ public class Controller {
 	private List<Nurse> nurses = new ArrayList<>();
 	private List<Patient> patients = new ArrayList<>();
 	
-	public Controller() {
+	public DataController() {
 		// Initialize initial data
 		// TODO: Fetch from the database
 		
