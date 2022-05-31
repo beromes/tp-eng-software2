@@ -99,11 +99,8 @@ public class Main {
 				if(patient == null) break;
 			}
 			
-			println("Bem vindo(a) " + patient.getName());
-			println("1. Ver Horários Disponíveis");
-			println("2. Ver Consultas marcadas");
-			println("3. Voltar");
-			
+			printPatientMenu(patient.getName());
+						
 			int option = in.nextInt();
 			switch(option) {
 				case 1:
@@ -119,10 +116,16 @@ public class Main {
 					break handlePatientLoop;
 				default:
 					println("Opção inválida");
-					continue;
+					break;
 			}
 		}
-		
+	}
+	
+	private static void printPatientMenu(String name) {
+		println("Bem vindo(a) " + name);
+		println("1. Ver Horários Disponíveis");
+		println("2. Ver Consultas marcadas");
+		println("3. Voltar");
 	}
 	
 	private static void handleSeeScheduledAppointments(Patient patient) {
