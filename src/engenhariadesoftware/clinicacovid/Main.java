@@ -54,7 +54,7 @@ public class Main {
 				handleDoctor();
 				break;
 			case Nurse:
-				handleNurse();
+				NurseController.handleNurse(controller);
 				break;
 			case Patient:
 				patientController.handlePatient();
@@ -65,7 +65,7 @@ public class Main {
 		}
 	}
 	
-	private static <T> T getUser(GetUserInterface<T> getUserInterface) {
+	public static <T> T getUser(GetUserInterface<T> getUserInterface) {
 		T user = null;
 		while(user == null) {
 				print("Seu username: (Digite '0' para voltar) ");
@@ -85,42 +85,6 @@ public class Main {
 		}
 		return null;
 	}			
-	
-	
-	private static void handleNurse() {
-		Nurse nurse = null;
-		handleNurseLoop: 
-		while(true) {	
-			if(nurse == null) {
-				nurse = getUser(new GetUserInterface<Nurse>() {
-					@Override
-					public Nurse getUser(String username) {
-						return controller.getNurse(username);
-					}
-				});
-				if(nurse == null) break;
-			}
-			
-			println("Bem vindo(a) " + nurse.getName() + "!");
-			println("1. Ver Agenda");
-			println("2. Ver Lista de Equipamentos");
-			println("3. Voltar");
-			
-			int option = in.nextInt();
-			switch(option) {
-				case 1:
-					break;
-				case 2:
-					break;
-				case 3:
-					controller.goToMenu();
-					break handleNurseLoop;
-				default:
-					println("Opção inválida");
-					continue;
-			}
-		}
-	}
 	
 	private static void handleDoctor() {
 		Doctor doctor = null;
