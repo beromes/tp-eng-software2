@@ -85,20 +85,15 @@ public class Main {
 	
 	private static void handlePatient() {
 		
-		Patient patient = null;
+		Patient patient = getPatient();
+		
+		if (patient == null) {
+			return;
+		}
 
 		handlePatientLoop: 
 		while(true) {
-			if(patient == null) {
-				patient = getUser(new GetUserInterface<Patient>() {
-					@Override
-					public Patient getUser(String username) {
-						return controller.getPatient(username);
-					}
-				});
-				if(patient == null) break;
-			}
-			
+
 			printPatientMenu(patient.getName());
 						
 			int option = in.nextInt();
@@ -119,6 +114,16 @@ public class Main {
 					break;
 			}
 		}
+	}
+	
+	private static Patient getPatient() {
+		Patient patient = getUser(new GetUserInterface<Patient>() {
+			@Override
+			public Patient getUser(String username) {
+				return controller.getPatient(username);
+			}
+		});
+		return patient;
 	}
 	
 	private static void printPatientMenu(String name) {
