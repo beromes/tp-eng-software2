@@ -18,12 +18,14 @@ public class Main {
 	private static DataController controller;
 	private static Scanner in;
 	private static PatientController patientController;
+	private static DoctorController doctorController;
 	
 	public static void main(String[] args) {
 		controller = new DataController();
 		in = new Scanner(System.in);
 		
 		patientController = new PatientController(controller, in);
+		doctorController = new DoctorController(controller, in);
 		
 		while(true) {
 			if(controller.currentMode == null) {
@@ -51,7 +53,7 @@ public class Main {
 	private static void handleMode(Mode mode) {
 		switch(mode) {
 			case Doctor:
-				DoctorController.handleDoctor();
+				doctorController.handleDoctor();
 				break;
 			case Nurse:
 				NurseController.handleNurse(controller);
