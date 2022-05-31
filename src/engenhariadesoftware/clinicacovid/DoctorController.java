@@ -2,7 +2,6 @@ package engenhariadesoftware.clinicacovid;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Calendar;
 import java.util.Scanner;
 
 import engenhariadesoftware.clinicacovid.DataController;
@@ -10,6 +9,7 @@ import engenhariadesoftware.clinicacovid.GetUserInterface;
 import engenhariadesoftware.clinicacovid.model.Doctor;
 import engenhariadesoftware.clinicacovid.model.Appointment;
 import engenhariadesoftware.clinicacovid.model.Patient;
+import engenhariadesoftware.clinicacovid.model.Calendar;
 import engenhariadesoftware.clinicacovid.Main;
 
 public class DoctorController extends ModelController<Doctor>  {
@@ -33,8 +33,8 @@ public class DoctorController extends ModelController<Doctor>  {
 		}
 
 		handleDocLoop: 
-    while(true) {	
-
+    while(true) {
+      
       printDoctorMenu(doctor.getName());
 			
 			int option = in.nextInt();	
@@ -49,7 +49,7 @@ public class DoctorController extends ModelController<Doctor>  {
 					}
 					break;
 				case 2:
-					controller.goToMenu();
+          dataController.goToMenu();
 					break handleDocLoop;
 				default:
 					println("Opção inválida");
@@ -65,7 +65,7 @@ public class DoctorController extends ModelController<Doctor>  {
 		println("2. Voltar");
   }
 
-  private printScheduledAppointments(List<Appointment> aps) {
+  private void printScheduledAppointments(List<Appointment> aps) {
     println("Consultas Marcadas: ");
     for(Appointment ap : aps) {
       Patient pat = ap.getPatient();
