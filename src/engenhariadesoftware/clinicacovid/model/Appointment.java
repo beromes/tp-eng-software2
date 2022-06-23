@@ -1,5 +1,8 @@
 package engenhariadesoftware.clinicacovid.model;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Date;
 
 public class Appointment {
@@ -27,6 +30,19 @@ public class Appointment {
 
 	public void setPatient(Patient patient) {
 		this.patient = patient;
+	}
+	
+	public File saveToFile(File fileToSave) throws IOException {
+		
+        FileWriter fstream = new FileWriter(fileToSave.getAbsolutePath(),true);
+        fstream.write(this.getAppointmentDate().toString());
+        fstream.write(this.getPatient().getName());
+        fstream.write(this.getPatient().getEmail());
+        fstream.write(this.getPatient().getAge());
+        fstream.close();
+        
+        return fileToSave;
+        
 	}
 	
 }

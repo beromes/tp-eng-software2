@@ -1,5 +1,8 @@
 package engenhariadesoftware.clinicacovid.model;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,5 +39,22 @@ public class Storage {
 	
 	public void addEquipment(Equipment eq) {
 		equipments.add(eq);
+	}
+	
+	public File saveEquipmentsToFile(File fileToSave) throws IOException {
+		
+        FileWriter fstream = new FileWriter(fileToSave.getAbsolutePath(),true);
+        
+        for(Integer i = 0; i < this.equipments.size(); i++) {
+        	Equipment current_equipment = this.getEquipments().get(i);
+	        fstream.write(current_equipment.getName());
+	        fstream.write(current_equipment.getQuantity());
+	        fstream.write(Boolean.toString(current_equipment.canUse()));
+        }
+        
+        fstream.close();
+        
+        return fileToSave;
+        
 	}
 }
