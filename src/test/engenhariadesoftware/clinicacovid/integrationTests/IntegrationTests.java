@@ -13,8 +13,10 @@ import java.nio.file.Files;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class IntegrationTests {
@@ -35,21 +37,87 @@ public class IntegrationTests {
 	    storage.addEquipment(new Equipment("Máscara Descartável", 4, true));
 	    storage.addEquipment(new Equipment("Teste Covid", 20, true));
 	    storage.addEquipment(new Equipment("Álcool em gel", 10, true));
-	    
+	    folder.create();
 	}
 
     public IntegrationTests() throws ParseException {
-    }	
+    }
+    
+    @Test
+    void testPacientScheduleAndCancelAppointment() throws Exception {
+    	
+    	// Scheduling Appointment
+    	Date scheduleDate = new SimpleDateFormat("yyyy-MM-dd").parse("2022-07-08");
+    	DoctorAppointment docAppointment = new DoctorAppointment(doctor, scheduleDate, patient);
+    	doctor.getCalendar().getAppointments().add(docAppointment);
+    	
+    	// Canceling Appointment
+    	Calendar doctorCalendar = doctor.getCalendar();
+    	doctorCalendar.cancel(docAppointment);
+    	
+    	List<Appointment> doctorAppointments = doctor.getCalendar().getAppointments();
+    	assertTrue(doctorAppointments.contains(docAppointment) == false);
+    }
+    
+    @Test
+    void testCancelAppointmentAndCheckingFilterDay() throws Exception {
+    	
+    	// Scheduling Appointment
+    	Date scheduleDateOne = new SimpleDateFormat("yyyy-MM-dd").parse("2022-07-08");
+    	Date scheduleDateTwo = new SimpleDateFormat("yyyy-MM-dd").parse("2022-07-15");
+    	DoctorAppointment docAppointmentOne = new DoctorAppointment(doctor, scheduleDateOne, patient);
+    	DoctorAppointment docAppointmentTwo = new DoctorAppointment(doctor, scheduleDateTwo, patient);
+    	doctor.getCalendar().getAppointments().add(docAppointmentOne);
+    	doctor.getCalendar().getAppointments().add(docAppointmentTwo);
+    	
+    	// Canceling Appointment
+    	Calendar doctorCalendar = doctor.getCalendar();
+    	doctorCalendar.cancel(docAppointmentOne);
+    	
+    	assertTrue(doctorCalendar.filterDay(scheduleDateOne).size() == 0);
+    	assertTrue(doctorCalendar.filterDay(scheduleDateTwo).size() == 1);
+    }
+    
+    @Test
+    void testCovidTestWithoutEquipmentExceptionThrown() throws ParseException {
+    	
+    	// Scheduling Covid Test Appointment
+    	Nurse nurse = new Nurse("Luana","luana");
+    	Date scheduleDate = new SimpleDateFormat("yyyy-MM-dd").parse("2022-01-15");
+    	CovidTestAppointment covidTestAppointment = new CovidTestAppointment(nurse,scheduleDate,patient);
+    	doctor.getCalendar().getAppointments().add(covidTestAppointment);
+    	
+    	// Setting Equipment quantity to zero
+    	List<Equipment> storageEquipments = storage.getEquipments();
+    	Equipment covidEquipment = storageEquipments.stream()
+    		.filter(equipment -> "Teste Covid".equals(equipment.getName()))
+    		.findAny()
+    		.orElse(null);
+    	
+    	if(covidEquipment != null)
+    		covidEquipment.setQuantity(0);
+    	
+    	// Using not available equipment
+    	Exception exception = assertThrows(Exception.class, () -> {
+    		covidEquipment.use();
+        });
+    	
+    	String expectedMessage = "Equipamento sem unidades disponíveis ou não consumível";
+    	String actualMessage = exception.getMessage();
+    	
+    	assertTrue(actualMessage.equals(expectedMessage));
+    }
 
     @Test
     void testScheduleAppointmentAndSaveToFile() throws ParseException, IOException {
     	
-    	Date date = new SimpleDateFormat("yyyy-MM-dd").parse("2022-02-08");
+    	// Scheduling Appointment
+    	Date date = new SimpleDateFormat("yyyy-MM-dd").parse("2022-10-12");
         DoctorAppointment docAppointment = new DoctorAppointment(doctor, date, patient);
         doctor.getCalendar().getAppointments().add(docAppointment);
         Appointment newAppointment = doctor.getCalendar().getAppointments().get(0);
-        folder.create();
         
+        //Saving to file
         File fileToSave = folder.newFile("schedule_appointment.txt");
         newAppointment.saveToFile(fileToSave);
         
@@ -63,9 +131,9 @@ public class IntegrationTests {
     }
     
     @Test
-    void testStorageEquipmentsSaveToFile() throws IOException {
+    void testStorageSaveEquipmentsToFile() throws IOException {
     	
-    	folder.create();
+    	//Saving to file
         File fileToSave = folder.newFile("storage_equipments.txt");
         
         storage.saveEquipmentsToFile(fileToSave);

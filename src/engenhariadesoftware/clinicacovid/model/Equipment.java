@@ -20,6 +20,10 @@ public class Equipment {
 	public int getQuantity() {
 		return quantity;
 	}
+	
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
 
 	public void use() throws Exception {
 		if(consumable && quantity > 0) {

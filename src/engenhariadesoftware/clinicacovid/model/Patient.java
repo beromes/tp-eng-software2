@@ -8,7 +8,6 @@ public class Patient {
 	private String email;
 	private String phone;
 	
-	
 	public Patient(String name, int age, String email, String phone, String username) {
 		super();
 		this.username = username;
@@ -37,5 +36,4 @@ public class Patient {
 	public String getUsername() {
 		return username;
 	}
-	
 }
