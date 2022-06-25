@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<project name="Hello World Project" default="info">
+
+<!--    <property name="classpath.dir" value="C:/Users/bernardo.gomes/.m2/repository"/>-->
+    <property name="build.dir" value="build/classes" />
+    <property name="build-jar.dir" value="build/jar" />
+    <property name="build-test.dir" value="build/classes/test" />
+    <property name="src.dir" value="src" />
+    <property name="lib.dir" value="lib" />
+    <property name="java.sdk" value="11"/>
+
+    <path id="main-classpath">
+<!--        <fileset dir="${classpath.dir}">-->
+<!--            <include name="**/*.jar"/>-->
+<!--        </fileset>-->
+        <pathelement path="${build.dir}"/>
+        <fileset dir="${lib.dir}">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+
+
+    <target name="info">
+        <echo message=""/>
+        <echo message="TP Eng. Software II - Build File"/>
+        <echo message="-----------------------------------"/>
+        <echo message="Targets disponíveis:"/>
+        <echo message="compile --> Compila os arquivos da aplicação"/>
+        <echo message="build-jar --> Gera o arquivo .jar"/>
+        <echo message="run --> Executa a aplicação "/>
+        <echo message=""/>
+    </target>
+
+    <target name="compile" description="Compila os arquivos da aplicação" depends="clean">
+        <mkdir dir="${build.dir}"/>
+        <javac destdir="${build.dir}" target="${java.sdk}" source="${java.sdk}">
+            <src path="${src.dir}"/>
+            <classpath refid="main-classpath"/>
+        </javac>
+    </target>
+
+    <target name="clean" description="Limpa diretórios de saída">
+        <delete dir="${build.dir}" />
+        <delete dir="${build-jar.dir}"></delete>
+    </target>
+
+    <target name="build-jar" description="Criar arquivo .jar" depends="compile">
+        <jar destfile="${build-jar.dir}/tp.jar"
+             basedir="${build.dir}"
+             excludes="**/test/**/*.java">
+            <manifest>
+                <attribute name="Main-Class" value="engenhariadesoftware.clinicacovid.Main"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="run" description="Executa aplicação" depends="build-jar">
+        <java fork="true" failonerror="yes" jar="${build-jar.dir}/tp.jar" />
+    </target>
+
+<!--    <target name="compile-test" >-->
+<!--        <mkdir dir="${build-test.dir}"/>-->
+<!--        <javac srcdir="${src.dir}/test" destdir="${build.dir}">-->
+<!--            <classpath refid="junit.classpath"/>-->
+<!--        </javac>-->
+<!--    </target>-->
+
+    <target name="unit-tests" description="Roda os testes de unidade">
+<!--        <junit haltonfailure="true" printsummary="true">-->
+<!--            <classpath refid="junit.classpath"/>-->
+<!--            <classpath refid="hamcrest.classpath"/>-->
+<!--            <test name="test.engenhariadesoftware.clinicacovid.unitTests.Teste"/>-->
+<!--        </junit>-->
+        <junitlauncher>
+<!--            <classpath refid="main-classpath" />-->
+<!--            <classpath>-->
+<!--                <pathelement location="${build.dir}"/>-->
+<!--            </classpath>-->
+            <classpath>
+                <pathelement path="${lib.dir}/junit-platform-launcher-1.8.2.jar"/>
+            </classpath>
+
+            <test name="test.engenhariadesoftware.clinicacovid.unitTests.Teste"/>
+        </junitlauncher>
+    </target>
+</project>
