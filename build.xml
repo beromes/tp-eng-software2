@@ -27,7 +27,7 @@
         <echo message="Targets disponíveis:"/>
         <echo message="compile --> Compila os arquivos da aplicação"/>
         <echo message="build-jar --> Gera o arquivo .jar"/>
-        <echo message="run --> Executa a aplicação"/>
+        <echo message="run --> Executa a aplicação "/>
         <echo message=""/>
     </target>
 
