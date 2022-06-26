@@ -68,7 +68,7 @@ public class CalendarTest {
   @Test
   void testBusyAtFailure() throws ParseException {
     calendar.schedule(appointment);
-    Date date2 = new SimpleDateFormat("yyyy-MM-dd").parse("2023-06-27");
+    Date date2 = new SimpleDateFormat("yyyy-MM-dd").parse("2022-06-25");
     assertFalse(calendar.busyAt(date2));
   }
 
