@@ -1,0 +1,45 @@
+plugins {
+    id 'java'
+}
+
+group 'engenhariadesoftware.clinicacovid'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src']
+            exclude '**/*Test.java'
+            exclude '**/*Tests.java'
+        }
+    }
+    test {
+        java {
+            srcDirs = ['src/test']
+        }
+    }
+}
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+//    testCompileOnly 'junit:junit:4.12'
+//    testRuntimeOnly 'org.junit.vintage:junit-vintage-engine:5.8.1'
+
+//    implementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+//    implementation 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    testCompileOnly 'junit:junit:4.12'
+    testImplementation 'org.junit.vintage:junit-vintage-engine:5.8.1'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+compileJava.options.encoding = 'ISO-8859-1'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'ISO-8859-1'
+}
