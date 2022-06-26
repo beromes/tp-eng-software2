@@ -1,4 +1,4 @@
-package test.engenhariadesoftware.clinicacovid.integrationTests;
+package engenhariadesoftware.clinicacovid.integrationTests;
 
 import engenhariadesoftware.clinicacovid.model.*;
 
@@ -9,6 +9,7 @@ import org.junit.rules.TemporaryFolder;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -121,7 +122,7 @@ public class IntegrationTests {
         File fileToSave = folder.newFile("schedule_appointment.txt");
         newAppointment.saveToFile(fileToSave);
         
-        final String fileContent = Files.readString(fileToSave.toPath());
+        final String fileContent = Files.readString(fileToSave.toPath(), StandardCharsets.ISO_8859_1);
         
         assertEquals(1, doctor.getCalendar().getAppointments().size());
         assertTrue(fileToSave.exists());
@@ -138,7 +139,7 @@ public class IntegrationTests {
         
         storage.saveEquipmentsToFile(fileToSave);
         
-        final String fileContent = Files.readString(fileToSave.toPath());
+        final String fileContent = Files.readString(fileToSave.toPath(), StandardCharsets.ISO_8859_1);
         assertTrue(fileToSave.exists());
         assertTrue(fileContent.contains("Teste Covid"));
         assertTrue(fileContent.contains("Álcool em gel"));

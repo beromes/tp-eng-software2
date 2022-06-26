@@ -3,6 +3,7 @@ package engenhariadesoftware.clinicacovid.model;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,7 +44,7 @@ public class Storage {
 	
 	public File saveEquipmentsToFile(File fileToSave) throws IOException {
 		
-        FileWriter fstream = new FileWriter(fileToSave.getAbsolutePath(),true);
+        FileWriter fstream = new FileWriter(fileToSave.getAbsolutePath(), StandardCharsets.ISO_8859_1,true);
         
         for(Integer i = 0; i < this.equipments.size(); i++) {
         	Equipment current_equipment = this.getEquipments().get(i);
