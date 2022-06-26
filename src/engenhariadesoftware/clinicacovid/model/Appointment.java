@@ -3,6 +3,7 @@ package engenhariadesoftware.clinicacovid.model;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 public class Appointment {
@@ -34,7 +35,7 @@ public class Appointment {
 	
 	public File saveToFile(File fileToSave) throws IOException {
 		
-        FileWriter fstream = new FileWriter(fileToSave.getAbsolutePath(),true);
+        FileWriter fstream = new FileWriter(fileToSave.getAbsolutePath(), StandardCharsets.ISO_8859_1, true);
         fstream.write(this.getAppointmentDate().toString());
         fstream.write(this.getPatient().getName());
         fstream.write(this.getPatient().getEmail());
