@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 
 public class CalendarTest {
 
-  Date date = new SimpleDateFormat("yyyy-MM-dd").parse("2022-06-26");
+  Date date = new Date();
   Calendar calendar = new Calendar();
   Patient patient1 = new Patient("Fernando", 21, "fernando@gmail.com", "31998863120", "fernando");
   Appointment appointment = new Appointment(date, patient1);
